@@ -1,7 +1,6 @@
+using MyNotes.Commands.Responses;
+using MediatR;
 
 namespace MyNotes.Commands.Requests;
 
-public record LoginRequest{
-  public string email { get; set; }
-  public string password { get; set; }
-}
+public record LoginRequest(string email, string password): IRequest<LoginResponse>;

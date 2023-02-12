@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 
 namespace MyNotes.Entities;
 
 public class User{
 
+  [Key]
   public Guid Id { get; set; }
 
   public string name { get; set; }

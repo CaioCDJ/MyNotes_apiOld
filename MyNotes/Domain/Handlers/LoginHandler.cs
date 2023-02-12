@@ -1,12 +1,14 @@
 using MyNotes.Commands.Requests;
 using MyNotes.Commands.Responses;
+using MediatR;
 
 namespace MyNotes.Commands.Handlers;
 
-public class LoginHandler : ILoginHandler {
+public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse> {
 
-  public async Task<LoginResponse> Handle(LoginRequest loginRequest){
-     
-    return new LoginResponse{ name = " Oliver the boxer" };
+  private readonly DataContext _dataContext;
+
+  public async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken){
+    return new LoginResponse{email="Oliver"};
   }
 }
