@@ -9,7 +9,7 @@ public class Note{
 
   public string title { get; set; }
   
-  public string text { get; set; }
+  public byte[] text { get; set; }
   
   public DateTime createdAt { get; set; } = DateTime.Now;
   
@@ -18,4 +18,5 @@ public class Note{
   public User user { get; set; }
 
   public Guid userId { get; set; }
+
 }

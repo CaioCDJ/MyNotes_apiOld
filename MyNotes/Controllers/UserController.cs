@@ -11,15 +11,14 @@ namespace MyNotes.Controller;
 [Route("api/user")]
 public class UserController : ControllerBase{
 
-  //private readonly ISender _sender;
+  private readonly ISender _sender;
   
-  private readonly DataContext _context;
+  public UserController(ISender _sender)
+    => this._sender = _sender;
 
-  /*
-  public UserController(ISender sender){
-    this._sender = sender;
-  }
-  */
+  // Rota test
+  //[HttpGet]
+  //public async Task<ActionResult>getUsers(){return Ok(users);}
 
   [HttpGet("{id}")]
   public async Task<ActionResult>getUser([FromRoute]string id){
@@ -28,23 +27,39 @@ public class UserController : ControllerBase{
 
   [HttpPost("login")]
   public async Task<ActionResult> Login(
-    [FromServices] IMediator handler,
     [FromBody] LoginRequest loginRequest
   ){
-    System.Console.WriteLine("Oliber the boxer");
-    var login = await handler.Send(loginRequest);
 
-    if(login is not null)
-      return Ok(login);
-    else
-      return BadRequest();
+    try{
+      var login = await _sender.Send(loginRequest);
+      if(login is not null)
+        return Ok(login);
+      else
+        return BadRequest();
+    }
+    catch (Exception e){
+      return BadRequest(e.Message);    
+    }
   }
  
   [HttpPost]
-  public async Task<ActionResult>newUser([FromBody] CreateUserRequest createUserRequest){
-    return Ok("oliver is a dog");
-  }
+  public async Task<ActionResult>newUser(
+      [FromServices] IMediator mediatr,
+      [FromBody] CreateUserRequest createUserRequest){
+ 
+    try{
+         
+      var response = await mediatr.Send(createUserRequest);
 
+      if(response is not null)
+        return Ok(response);
+      else
+        return BadRequest();
+    }
+    catch (System.Exception e){
+      return BadRequest(e.Message);
+    }
+  }
 
   // -- Notes --
 
