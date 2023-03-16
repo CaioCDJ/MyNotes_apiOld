@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyNotes.Data;
-using MyNotes.Commands.Handlers;
+using MyNotes.Entities;
 using MyNotes.Commands.Responses;
 using MyNotes.Commands.Requests;
 using MediatR;
@@ -11,58 +11,66 @@ namespace MyNotes.Controller;
 [Route("api/user")]
 public class UserController : ControllerBase{
 
-  private readonly ISender _sender;
+  private readonly IMediator _mediator;
   
-  public UserController(ISender _sender)
-    => this._sender = _sender;
-
-  // Rota test
-  //[HttpGet]
-  //public async Task<ActionResult>getUsers(){return Ok(users);}
+  public UserController(IMediator mediator)
+    => this._mediator = mediator;
 
   [HttpGet("{id}")]
-  public async Task<ActionResult>getUser([FromRoute]string id){
-    return Ok();
-  }
+  public async Task<User>getUser([FromRoute]string id)
+    => await _mediator.Send(new GetUserByIdRequest(id));
 
   [HttpPost("login")]
-  public async Task<ActionResult> Login(
-    [FromBody] LoginRequest loginRequest
-  ){
-
-    try{
-      var login = await _sender.Send(loginRequest);
-      if(login is not null)
-        return Ok(login);
-      else
-        return BadRequest();
-    }
-    catch (Exception e){
-      return BadRequest(e.Message);    
-    }
-  }
+  public async Task<LoginResponse> Login(
+    [FromBody] LoginRequest loginRequest)
+    => await _mediator.Send(loginRequest);
  
   [HttpPost]
-  public async Task<ActionResult>newUser(
-      [FromServices] IMediator mediatr,
-      [FromBody] CreateUserRequest createUserRequest){
- 
-    try{
-         
-      var response = await mediatr.Send(createUserRequest);
+  public async Task<CreateUserResponse>newUser(
+      [FromBody] CreateUserRequest createUserRequest)
+    => await _mediator.Send(createUserRequest);
 
-      if(response is not null)
-        return Ok(response);
-      else
-        return BadRequest();
-    }
-    catch (System.Exception e){
-      return BadRequest(e.Message);
-    }
-  }
+  [HttpPatch("{id}/password")]
+  public async Task<string>updatePassword(
+      [FromRoute]string id,
+      [FromBody]PasswordRequest request) 
+    => await _mediator.Send(new ChangePasswordRequest(id, request.password, request.newPassword));
+  
+  [HttpDelete("{id}")]
+  public async Task<string> deleteUser([FromRoute]string id)
+    => await _mediator.Send(new DeleteUserRequest(id));
 
   // -- Notes --
 
   // list - create - update - delete
 
+
+  [HttpGet("{id}/notes")]
+  public async Task GetNotes(
+      [FromRoute] string id
+      ){}
+/*
+  [HttpGet("{id}/notes/{noteId}")]
+  public async Task GetNote(
+      [FromRoute] string id,
+      [FromRoute] string noteId
+      ){}
+
+  [HttpPost("{id}/notes")]
+  public async Task newNote(
+      [FromRoute] string id,
+      [FromBody] CreateNoteRequest request
+      ){}
+
+  [HttpPut("{id}/notes")]
+  public async Task newNote(
+      [FromRoute] string id
+      ){}
+
+  [HttpDelete("{id}/notes/{noteId}")]
+  public async Task newNote(
+      [FromRoute] string id,
+      [FromRoute] string noteId
+      ){}
+*/
 }

@@ -18,4 +18,10 @@ public class Hashing{
     return builder.ToString();
   }
 
+  public async static Task<bool>Compare(string passoword, string text){
+    string compareText = await ToSha(text);
+    
+    return (compareText == passoword);
+  }
+
 }

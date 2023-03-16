@@ -1,6 +1,8 @@
+using MyNotes.Entities;
 using MediatR;
 
 public record CreateNoteRequest(
-    string title,
-    string text
-);
+  string id,
+  string title,
+  string text
+) : IRequest<Note>;

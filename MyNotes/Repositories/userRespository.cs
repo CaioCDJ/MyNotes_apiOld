@@ -25,7 +25,11 @@ public class UserRepository{
     await _dataContext.SaveChangesAsync();  
   }
   
-  //public async Task<User> Update(){}
+  public async Task<User> Update(User user){
+    _dataContext.Users.Update(user);
+    await _dataContext.SaveChangesAsync();
+    return await GetById(user.Id);
+  }
   
   public async Task remove(string id){
     var user = await _dataContext.Users.SingleOrDefaultAsync(x=> x.Id == id);
