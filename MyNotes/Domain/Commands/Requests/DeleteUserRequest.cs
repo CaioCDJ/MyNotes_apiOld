@@ -3,4 +3,4 @@ using MyNotes.Commands.Responses;
 
 namespace MyNotes.Commands.Requests;
 
-public record DeleteUserRequest(string id) : IRequest<string>;
+public record DeleteUserRequest(Guid id) : IRequest<string>;

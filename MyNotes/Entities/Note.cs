@@ -5,11 +5,11 @@ namespace MyNotes.Entities;
 public class Note{
 
   [Key]
-  public Guid Id { get; set; }
+  public Guid Id { get; set; } = Guid.NewGuid();
 
   public string title { get; set; }
   
-  public byte[] text { get; set; }
+  public string text { get; set; }
   
   public DateTime createdAt { get; set; } = DateTime.Now;
   

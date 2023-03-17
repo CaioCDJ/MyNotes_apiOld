@@ -17,7 +17,7 @@ public class UserController : ControllerBase{
     => this._mediator = mediator;
 
   [HttpGet("{id}")]
-  public async Task<User>getUser([FromRoute]string id)
+  public async Task<User>getUser([FromRoute]Guid id)
     => await _mediator.Send(new GetUserByIdRequest(id));
 
   [HttpPost("login")]
@@ -32,12 +32,12 @@ public class UserController : ControllerBase{
 
   [HttpPatch("{id}/password")]
   public async Task<string>updatePassword(
-      [FromRoute]string id,
+      [FromRoute]Guid id,
       [FromBody]PasswordRequest request) 
     => await _mediator.Send(new ChangePasswordRequest(id, request.password, request.newPassword));
   
   [HttpDelete("{id}")]
-  public async Task<string> deleteUser([FromRoute]string id)
+  public async Task<string> deleteUser([FromRoute]Guid id)
     => await _mediator.Send(new DeleteUserRequest(id));
 
   // -- Notes --
@@ -47,9 +47,10 @@ public class UserController : ControllerBase{
 
   [HttpGet("{id}/notes")]
   public async Task GetNotes(
-      [FromRoute] string id
+      [FromRoute] Guid id
       ){}
-/*
+
+  /*
   [HttpGet("{id}/notes/{noteId}")]
   public async Task GetNote(
       [FromRoute] string id,

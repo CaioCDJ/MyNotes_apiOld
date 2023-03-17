@@ -2,7 +2,7 @@ using MyNotes.Entities;
 using MediatR;
 
 public record CreateNoteRequest(
-  string id,
+  Guid id,
   string title,
   string text
 ) : IRequest<Note>;

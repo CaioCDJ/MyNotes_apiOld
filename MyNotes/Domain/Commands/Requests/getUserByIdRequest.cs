@@ -3,4 +3,4 @@ using MediatR;
 
 namespace MyNotes.Commands.Requests;
 
-public record GetUserByIdRequest(string id) : IRequest<User>;
+public record GetUserByIdRequest(Guid id) : IRequest<User>;

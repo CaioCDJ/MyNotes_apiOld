@@ -5,7 +5,7 @@ namespace MyNotes.Security;
 
 public class Crypto{
 
-  public static byte[] Encrypt(string simpletext, byte[] key, byte[] iv){
+  public static string Encrypt(string simpletext, byte[] key, byte[] iv){
     byte[] cipheredtext;
     
     using (Aes aes = Aes.Create()){
@@ -24,7 +24,7 @@ public class Crypto{
         }
       }
     }
-    return cipheredtext;
+    return cipheredtext.ToString();
   }
 
   public static string Decrypt(byte[] cipheredtext, byte[] key, byte[] iv){
@@ -45,5 +45,4 @@ public class Crypto{
     }
     return simpletext;
   }
-
 }

@@ -12,7 +12,7 @@ builder.Services.AddMediatR(cfg => {
 });
 
 builder.Services.AddDbContext<DataContext>(
-  options => options.UseInMemoryDatabase("MyNotes")
+  options => options.UseSqlite("DataSource=app.db;Cache=Shared")
 );
 
 var app = builder.Build();

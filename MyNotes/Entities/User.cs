@@ -5,7 +5,7 @@ namespace MyNotes.Entities;
 public class User{
 
   [Key]
-  public string Id { get; set; } = Guid.NewGuid().ToString();
+  public Guid Id { get; set; } = Guid.NewGuid();
 
   public string name { get; set; }
   
