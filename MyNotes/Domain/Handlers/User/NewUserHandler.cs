@@ -25,5 +25,4 @@ public class NewUserHandler : IRequestHandler<CreateUserRequest,CreateUserRespon
 
     return UserMapper.ToCreateUserResponse(user);
   }
-
 }

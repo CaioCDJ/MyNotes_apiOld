@@ -1,37 +1,42 @@
 using MyNotes.Entities;
 using MyNotes.Commands.Responses;
 using MyNotes.Commands.Requests;
+using Microsoft.Data.Sqlite;
+using Dapper;
 
 namespace MyNotes.Repository;
 
 public class UserRepository{
 
   private readonly DataContext _dataContext;
+  private readonly SqliteConnection _conn;
 
-  public UserRepository(DataContext _dataContext) 
-    => this._dataContext = _dataContext;
-
-  public async Task<User?> GetById(Guid id)
-    => await _dataContext.Users.SingleOrDefaultAsync(x => x.Id == id);
+  public UserRepository(DataContext dataContext){
+    _dataContext = dataContext;
+    _conn = new SqliteConnection(_dataContext.Database.GetConnectionString());
+  }
   
+  public async Task<User?> GetById(string id)
+    => await _conn.QueryFirstAsync<User>(
+      sql: $"SELECT * FROM Users WHERE Id = '{id}';");
+
   public async Task<User?> GetLogin(LoginRequest loginRequest)
-    => await _dataContext.Users.SingleOrDefaultAsync(
-        x => x.email == loginRequest.email && x.password == loginRequest.password);
+    => await _conn.QueryFirstAsync<User>(
+        sql:$"SELECT * FROM Users WHERE email = '{loginRequest.email}' AND password = '{loginRequest.password}';");
   
   public async Task Add(User user){
 
     _dataContext.Users.Add(user);
-
     await _dataContext.SaveChangesAsync();  
   }
   
   public async Task<User?> Update(User user){
     _dataContext.Users.Update(user);
     await _dataContext.SaveChangesAsync();
-    return await GetById(user.Id);
+    return await GetById(user.Id.ToString());
   }
   
-  public async Task remove(Guid id){
+  public async Task remove(string id){
     var user = await _dataContext.Users.SingleOrDefaultAsync(x=> x.Id == id);
     if(!string.IsNullOrWhiteSpace(user.Id.ToString()))
       _dataContext.Users.Remove(user);

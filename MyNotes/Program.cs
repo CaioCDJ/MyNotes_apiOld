@@ -1,9 +1,10 @@
 global using Microsoft.EntityFrameworkCore;
 global using MyNotes.Data;
-using MediatR;
+using MyNotes;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<GloblaExceptioinMiddleware>();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
@@ -27,5 +28,18 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<GloblaExceptioinMiddleware>();
+
+/* -- middleware basico --
+app.Use(async(context,next)=>{
+  try{
+    await next(context);
+    }
+    catch(Exception e){
+     context.Response.StatusCode = 500;
+    }
+});
+*/
 
 app.Run();

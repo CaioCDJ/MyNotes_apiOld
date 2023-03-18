@@ -15,7 +15,7 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordRequest, stri
 
   public async Task<string> Handle(ChangePasswordRequest request, CancellationToken cancellationToken){
 
-    var user = await _userRepository.GetById(request.id);
+    var user = await _userRepository.GetById(request.id.ToString());
    
     bool passwordHashCompare = await Hashing.Compare(user.password, request.password);
     
@@ -28,8 +28,7 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordRequest, stri
       return $"A senha foi alterada com sucesso";
     }
     else
-      return "erro"; // sim, eu sei que vai retornar como codigo 200
-
+      return "erro" ; // sim, eu sei que vai retornar como codigo 200
   }
 
 }

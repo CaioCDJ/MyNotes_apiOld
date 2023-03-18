@@ -1,9 +1,14 @@
 using System.Security.Cryptography;
-
+using System.Text;
 
 namespace MyNotes.Security;
 
 public class Crypto{
+
+  private readonly byte[] _key;
+
+  public Crypto(string key)
+    => _key = Encoding.ASCII.GetBytes(key);
 
   public static string Encrypt(string simpletext, byte[] key, byte[] iv){
     byte[] cipheredtext;

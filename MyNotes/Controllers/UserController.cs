@@ -17,7 +17,7 @@ public class UserController : ControllerBase{
     => this._mediator = mediator;
 
   [HttpGet("{id}")]
-  public async Task<User>getUser([FromRoute]Guid id)
+  public async Task<User>getUser([FromRoute]string id)
     => await _mediator.Send(new GetUserByIdRequest(id));
 
   [HttpPost("login")]
