@@ -1,11 +1,11 @@
-using MyNotes.Commands.Requests;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Mapping;
+using MyNotes.Domain.Mapping;
 using MyNotes.Repository;
 using MyNotes.Security;
 using MediatR;
+using MyNotes.Domain.Queries.Requests;
+using MyNotes.Domain.Queries.Responses;
 
-namespace MyNotes.Commands.Handlers;
+namespace MyNotes.Domain.Commands.Handlers;
 
 public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse> {
 

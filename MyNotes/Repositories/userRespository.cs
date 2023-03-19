@@ -1,8 +1,7 @@
 using MyNotes.Entities;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Requests;
 using Microsoft.Data.Sqlite;
 using Dapper;
+using MyNotes.Domain.Queries.Requests;
 
 namespace MyNotes.Repository;
 

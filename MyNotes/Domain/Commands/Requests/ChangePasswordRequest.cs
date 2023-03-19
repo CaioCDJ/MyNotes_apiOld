@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace MyNotes.Commands.Requests;
+namespace MyNotes.Domain.Commands.Requests;
 
 public record ChangePasswordRequest(Guid id, string password, string newPassword) : IRequest<string>;
 

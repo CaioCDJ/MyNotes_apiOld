@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using MyNotes.Data;
 using MyNotes.Entities;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Requests;
 using MediatR;
+using MyNotes.Domain.Queries.Responses;
+using MyNotes.Domain.Queries.Requests;
+using MyNotes.Domain.Commands.Requests;
+using MyNotes.Domain.Queries.Request;
+using MyNotes.Domain.Commands.Responses;
 
 namespace MyNotes.Controller;
 
@@ -45,22 +47,29 @@ public class UserController : ControllerBase{
   // list - create - update - delete
 
 
-  [HttpGet("{id}/notes")]
-  public async Task GetNotes(
-      [FromRoute] Guid id
-      ){}
+  [HttpGet("{id}/note")]
+  public async Task<IEnumerable<GetNotesResponse>> GetNotes(
+      [FromRoute] string id)
+    => await _mediator.Send(new GetNotesRequest(id));
+  
+  [HttpGet("{id}/note/{noteId}")]
+  public async Task<Note> GetNotes(
+      [FromRoute] string id,
+      [FromRoute] string noteId)
+    => await _mediator.Send(new GetNoteRequest(id,noteId));
+
+
+  [HttpPost("{id}/notes")]
+  public async Task<Note> newNote(
+      [FromRoute] string id,
+      [FromBody] CreateNoteRequestText request)
+    => await _mediator.Send(new CreateNoteRequest(id, request.title));
 
   /*
   [HttpGet("{id}/notes/{noteId}")]
   public async Task GetNote(
       [FromRoute] string id,
       [FromRoute] string noteId
-      ){}
-
-  [HttpPost("{id}/notes")]
-  public async Task newNote(
-      [FromRoute] string id,
-      [FromBody] CreateNoteRequest request
       ){}
 
   [HttpPut("{id}/notes")]

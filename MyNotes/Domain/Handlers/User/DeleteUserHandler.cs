@@ -1,11 +1,8 @@
-using MyNotes.Commands.Requests;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Mapping;
 using MyNotes.Repository;
-using MyNotes.Security;
 using MediatR;
+using MyNotes.Domain.Queries.Request;
 
-namespace MyNotes.Commands.Handlers;
+namespace MyNotes.Domain.Commands.Handlers;
 
 public class DeleteUserHandler : IRequestHandler<DeleteUserRequest, string> {
 

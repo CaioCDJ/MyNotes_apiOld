@@ -1,10 +1,9 @@
-using MyNotes.Commands.Requests;
-using MyNotes.Commands.Mapping;
 using MyNotes.Entities;
 using MyNotes.Repository;
 using MediatR;
+using MyNotes.Domain.Queries.Requests;
 
-namespace MyNotes.Commands.Handlers;
+namespace MyNotes.Domain.Commands.Handlers;
 
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdRequest, User> {
 

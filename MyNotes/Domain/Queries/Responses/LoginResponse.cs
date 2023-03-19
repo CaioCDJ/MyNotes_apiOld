@@ -1,6 +1,5 @@
 
-namespace MyNotes.Commands.Responses;
-
+namespace MyNotes.Domain.Queries.Responses;
 
 public class LoginResponse{
   public string Id { get; set; }

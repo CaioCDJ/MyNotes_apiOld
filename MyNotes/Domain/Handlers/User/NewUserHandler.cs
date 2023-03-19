@@ -1,11 +1,11 @@
-using MyNotes.Commands.Requests;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Mapping;
+using MyNotes.Domain.Commands.Responses;
+using MyNotes.Domain.Mapping;
 using MyNotes.Repository;
 using MediatR;
 using MyNotes.Security;
+using MyNotes.Domain.Commands.Requests;
 
-namespace MyNotes.Commands.Handlers;
+namespace MyNotes.Domain.Commands.Handlers;
 
 public class NewUserHandler : IRequestHandler<CreateUserRequest,CreateUserResponse>{
   

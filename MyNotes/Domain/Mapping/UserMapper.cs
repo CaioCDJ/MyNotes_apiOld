@@ -1,8 +1,9 @@
+using MyNotes.Domain.Commands.Requests;
+using MyNotes.Domain.Commands.Responses;
+using MyNotes.Domain.Queries.Responses;
 using MyNotes.Entities;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Requests;
 
-namespace MyNotes.Commands.Mapping;
+namespace MyNotes.Domain.Mapping;
 
 public class UserMapper{
 

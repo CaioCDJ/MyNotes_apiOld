@@ -8,6 +8,8 @@ builder.Services.AddTransient<GloblaExceptioinMiddleware>();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
+// injecao da classe de criptografia com chave de segurancao
+
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });

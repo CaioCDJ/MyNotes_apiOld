@@ -1,5 +1,5 @@
 
-namespace MyNotes.Commands.Responses;
+namespace MyNotes.Domain.Commands.Responses;
 
 public record CreateUserResponse{
   public string Id { get; set; } 

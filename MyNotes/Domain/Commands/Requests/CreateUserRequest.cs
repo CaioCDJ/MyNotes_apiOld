@@ -1,7 +1,7 @@
 using MediatR;
-using MyNotes.Commands.Responses;
+using MyNotes.Domain.Commands.Responses;
 
-namespace MyNotes.Commands.Requests;
+namespace MyNotes.Domain.Commands.Requests;
 
 public record CreateUserRequest(
     string name,

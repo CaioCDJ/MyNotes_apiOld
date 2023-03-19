@@ -1,10 +1,9 @@
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Requests;
 using MyNotes.Repository;
 using MyNotes.Security;
 using MediatR;
+using MyNotes.Domain.Commands.Requests;
 
-namespace MyNotes.Commands.Handlers;
+namespace MyNotes.Domain.Commands.Handlers;
 
 public class ChangePasswordHandler : IRequestHandler<ChangePasswordRequest, string>{
 

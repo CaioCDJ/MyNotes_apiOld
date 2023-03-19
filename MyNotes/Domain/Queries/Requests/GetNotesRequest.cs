@@ -1,5 +1,6 @@
 using MediatR;
+using MyNotes.Domain.Queries.Responses;
 
-namespace MyNotes.Commands.Requests;
+namespace MyNotes.Domain.Queries.Requests;
 
-public record GetNotesRequest(Guid userId) : IRequest<GetNotesRequest>;
+public record GetNotesRequest(string userId) : IRequest<IEnumerable<GetNotesResponse>>;

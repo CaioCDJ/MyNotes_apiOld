@@ -1,6 +1,7 @@
+using MyNotes.Domain.Commands.Requests;
+using MyNotes.Domain.Queries.Requests;
+using MyNotes.Domain.Queries.Responses;
 using MyNotes.Entities;
-using MyNotes.Commands.Responses;
-using MyNotes.Commands.Requests;
 using Microsoft.Data.Sqlite;
 using Dapper;
 
@@ -16,15 +17,18 @@ public class NotesRepository{
     _conn = new SqliteConnection(dataContext.Database.GetConnectionString());
   }
 
-  public async Task<Note> GetNoteById(string id)
+  private async Task<Note> GetNoteById(string id)
     => await _conn.QueryFirstAsync<Note>(
-        sql: $"SELECT * FROM Notes WHERE Id = {id}");
+        sql: $"SELECT * FROM Notes WHERE Id = '{id}';");
 
-  public async Task GetNotes(string userID)
-    => await _conn.QueryAsync(
-        sql:@"SELECT Id, title, updatedAt FROM Notes WHERE userId = '@userID';",
-        userID
-        );
+  public async Task<Note> GetNote(string id, string userId)
+    => await _conn.QueryFirstAsync<Note>(
+        sql: $"SELECT * FROM Notes WHERE Id = '{id}' AND userId = '{userId}';");
+
+  public async Task<IEnumerable<GetNotesResponse>> GetNotes(string userID)
+    => await _conn.QueryAsync<GetNotesResponse>(
+        sql:$"SELECT Id, title, updatedAt FROM Notes WHERE userId = '{userID}';"
+      );
 
   public async Task Add(Note note){
     await _dataContext.Notes.AddAsync(note);
@@ -32,7 +36,6 @@ public class NotesRepository{
   }
 
   public async Task<Note>Update(Note note){
-    
     _dataContext.Notes.Update(note);
     await _dataContext.SaveChangesAsync();
     
