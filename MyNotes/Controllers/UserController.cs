@@ -19,68 +19,74 @@ public class UserController : ControllerBase{
     => this._mediator = mediator;
 
   [HttpGet("{id}")]
-  public async Task<User>getUser([FromRoute]string id)
-    => await _mediator.Send(new GetUserByIdRequest(id));
+  public async Task<IActionResult>getUser([FromRoute]string id)
+    => await SendRequest(new GetUserByIdRequest(id));
 
   [HttpPost("login")]
-  public async Task<LoginResponse> Login(
+  public async Task<IActionResult> Login(
     [FromBody] LoginRequest loginRequest)
-    => await _mediator.Send(loginRequest);
+    => await SendRequest(loginRequest);
  
   [HttpPost]
-  public async Task<CreateUserResponse>newUser(
+  public async Task<IActionResult>newUser(
       [FromBody] CreateUserRequest createUserRequest)
-    => await _mediator.Send(createUserRequest);
+    => await SendRequest(createUserRequest);
 
   [HttpPatch("{id}/password")]
-  public async Task<string>updatePassword(
+  public async Task<IActionResult>updatePassword(
       [FromRoute]Guid id,
       [FromBody]PasswordRequest request) 
-    => await _mediator.Send(new ChangePasswordRequest(id, request.password, request.newPassword));
+    => await SendRequest(new ChangePasswordRequest(id, request.password, request.newPassword));
   
   [HttpDelete("{id}")]
-  public async Task<string> deleteUser([FromRoute]Guid id)
-    => await _mediator.Send(new DeleteUserRequest(id));
+  public async Task<IActionResult> deleteUser([FromRoute]Guid id)
+    => await SendRequest(new DeleteUserRequest(id));
 
   // -- Notes --
 
   // list - create - update - delete
 
-
   [HttpGet("{id}/note")]
-  public async Task<IEnumerable<GetNotesResponse>> GetNotes(
+  public async Task<IActionResult> GetNotes(
       [FromRoute] string id)
-    => await _mediator.Send(new GetNotesRequest(id));
+    => await SendRequest(new GetNotesRequest(id));
   
   [HttpGet("{id}/note/{noteId}")]
-  public async Task<Note> GetNotes(
+  public async Task<IActionResult> GetNotes(
       [FromRoute] string id,
       [FromRoute] string noteId)
-    => await _mediator.Send(new GetNoteRequest(id,noteId));
+    => await SendRequest(new GetNoteRequest(id,noteId));
 
 
   [HttpPost("{id}/notes")]
-  public async Task<Note> newNote(
+  public async Task<IActionResult> newNote(
       [FromRoute] string id,
       [FromBody] CreateNoteRequestText request)
-    => await _mediator.Send(new CreateNoteRequest(id, request.title));
+    => await SendRequest(new CreateNoteRequest(id, request.title));
 
-  /*
+  [HttpDelete("{id}/notes/{noteId}")]
+  public async Task<IActionResult> deleteNote(
+      [FromRoute] string id,
+      [FromRoute] string noteId)
+    => await SendRequest(new DeleteNoteRequest(id,noteId));
+  
   [HttpGet("{id}/notes/{noteId}")]
   public async Task GetNote(
       [FromRoute] string id,
-      [FromRoute] string noteId
-      ){}
+      [FromRoute] string noteId,
+      [FromBody] NoteUpdateRequestBody request)
+    => await SendRequest(new NoteUpdateRequest(id,request.title, request.text, noteId));
 
-  [HttpPut("{id}/notes")]
-  public async Task newNote(
-      [FromRoute] string id
-      ){}
-
-  [HttpDelete("{id}/notes/{noteId}")]
-  public async Task newNote(
-      [FromRoute] string id,
-      [FromRoute] string noteId
-      ){}
-*/
+  private async Task<IActionResult>SendRequest(Object request){
+    try{
+      var obj = await _mediator.Send(request);
+      
+      return (obj is not null)
+        ? Ok(obj)
+        : NotFound();
+    }
+    catch (Exception e){
+      return BadRequest(e.Message);
+    }
+  }
 }

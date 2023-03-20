@@ -29,6 +29,5 @@ public class UserMapper{
       name = user.name,
       email = user.email,
       createdAt = user.createdAt,
-      password = user.password
     };
 }
