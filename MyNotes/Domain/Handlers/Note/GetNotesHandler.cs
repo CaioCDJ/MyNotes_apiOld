@@ -15,6 +15,9 @@ public class GetNotesHandler : IRequestHandler<GetNotesRequest, IEnumerable<GetN
   public async Task<IEnumerable<GetNotesResponse>>Handle(GetNotesRequest request, CancellationToken cancellationToken){
     
     var list = await _notesRepository.GetNotes(request.userId); 
+    
+    var lista =  list.ToList();
+
     return list;
   }
 }

@@ -11,8 +11,9 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse> {
 
   private readonly UserRepository _repository;
 
-  public LoginHandler(DataContext dataContext)
-    => this._repository  = new UserRepository(dataContext);
+  public LoginHandler(DataContext dataContext, TokenService tokenService){
+    _repository  = new UserRepository(dataContext);
+  }
 
   public async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken){
   
@@ -21,6 +22,8 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse> {
     var user = await _repository.GetLogin(new LoginRequest(request.email, password));
     
     var response = UserMapper.ToLoginResponse(user);
+
+    response.token = TokenService.GenerateToken(user).ToString();
 
     return response;
   }

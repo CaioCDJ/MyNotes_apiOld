@@ -1,14 +1,23 @@
 global using Microsoft.EntityFrameworkCore;
 global using MyNotes.Data;
 using MyNotes;
+using MyNotes.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<GloblaExceptioinMiddleware>();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<TokenService>();
 
-// injecao da classe de criptografia com chave de segurancao
+builder.Services.AddAuthentication("Bearer")
+  .AddJwtBearer(x=>{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
+      ValidateIssuerSigningKey = true,
+    };
+  });
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
@@ -28,6 +37,8 @@ if(app.Environment.IsDevelopment()){
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
