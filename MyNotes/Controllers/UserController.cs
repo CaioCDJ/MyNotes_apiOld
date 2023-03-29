@@ -4,7 +4,6 @@ using MediatR;
 using MyNotes.Domain.Queries.Responses;
 using MyNotes.Domain.Queries.Requests;
 using MyNotes.Domain.Commands.Requests;
-using MyNotes.Domain.Queries.Request;
 using MyNotes.Domain.Commands.Responses;
 using Microsoft.AspNetCore.Authorization;
 

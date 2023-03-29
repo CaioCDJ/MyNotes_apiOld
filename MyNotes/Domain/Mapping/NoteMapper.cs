@@ -1,4 +1,3 @@
-using MyNotes.Domain.Queries.Request;
 using MyNotes.Domain.Queries.Responses;
 using MyNotes.Domain.Commands.Requests;
 using MyNotes.Entities;

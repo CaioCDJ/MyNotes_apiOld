@@ -20,8 +20,8 @@ public class UserRepository{
       sql: $"SELECT * FROM Users WHERE Id = '{id}';");
 
   public async Task<User?> GetLogin(LoginRequest loginRequest)
-    => await _conn.QueryFirstAsync<User>(
-        sql:$"SELECT * FROM Users WHERE email = '{loginRequest.email}' AND password = '{loginRequest.password}';");
+    => await _conn.QuerySingleOrDefaultAsync<User>(
+      "SELECT * FROM Users WHERE email = @email AND password = @password;", loginRequest);
   
   public async Task Add(User user){
 

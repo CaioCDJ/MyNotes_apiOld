@@ -1,6 +1,6 @@
 using MyNotes.Repository;
 using MediatR;
-using MyNotes.Domain.Queries.Request;
+using MyNotes.Domain.Commands.Requests;
 
 namespace MyNotes.Domain.Commands.Handlers;
 

@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<TokenService>();
 
+
+/*
 builder.Services.AddAuthentication("Bearer")
   .AddJwtBearer(x=>{
     x.RequireHttpsMetadata = false;
@@ -18,6 +20,7 @@ builder.Services.AddAuthentication("Bearer")
       ValidateIssuerSigningKey = true,
     };
   });
+*/
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
